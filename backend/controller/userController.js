@@ -9,7 +9,7 @@ const registerUser =asyncHandler(async (req,res)=>{
 
     if(!name || !email || !password){
         res.status(400);
-        throw new Error('Please Enter all the feilds')
+        throw new Error('Please Enter all the fields')
     }
 
     const userExist = await User.findOne({email})
@@ -40,6 +40,7 @@ const registerUser =asyncHandler(async (req,res)=>{
     }
 
 });
+   
 
 const authUser = asyncHandler (async(req,res)=>{
        const {email, password} = req.body
@@ -63,4 +64,17 @@ const authUser = asyncHandler (async(req,res)=>{
     }
 })
 
-module.exports = { registerUser , authUser} 
+
+  // /api/user?search=rifai
+const allUsers = asyncHandler(async (req,res)=>{
+        const keyWord = req.query.search? {
+            $or: [
+                {name: {$regex : req.query.search, $options: "i"}},
+                {email: { $regex: req.query.search, $options: "i"}},
+            ]
+        }
+        :{}
+        
+})
+
+module.exports = { registerUser, authUser, allUsers} 
