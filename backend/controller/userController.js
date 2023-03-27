@@ -32,7 +32,7 @@ const registerUser =asyncHandler(async (req,res)=>{
             email:user.email,
             pic:user.pic,
             token:generateToken(user._id)
-        })
+        });
     }else{
         res.status(400);
         throw new Error('Failed to create the user')
@@ -67,13 +67,17 @@ const authUser = asyncHandler (async(req,res)=>{
 
   // /api/user?search=rifai
 const allUsers = asyncHandler(async (req,res)=>{
-        const keyWord = req.query.search? {
+       const keyWord = req.query.search?
+         {
             $or: [
                 {name: {$regex : req.query.search, $options: "i"}},
                 {email: { $regex: req.query.search, $options: "i"}},
             ]
         }
         :{}
+       
+        const users = await User.find(keyWord).find({_id: {$ne: req.user._id}})
+        res.send(users)
         
 })
 
