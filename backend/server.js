@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const connectDB = require('./config/db')
 const userRoutes = require('./routes/user')
+const chatRoutes = require('./routes/chat')
 const {notFound,errorHandler} = require('./middlewares/errorMiddleware')
 require('dotenv').config()
 require('colors');
@@ -21,6 +22,7 @@ app.get('/',(req,res)=>{
 })
  
 app.use('/api/user',userRoutes)
+app.use('/api/chat',chatRoutes)
 
 
 app.use(notFound)

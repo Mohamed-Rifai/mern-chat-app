@@ -65,7 +65,7 @@ const authUser = asyncHandler (async(req,res)=>{
 })
 
 
-  // /api/user?search=rifai
+  // /api/user?search=<anything> if the name or email exist in collection, it will show
 const allUsers = asyncHandler(async (req,res)=>{
        const keyWord = req.query.search?
          {
